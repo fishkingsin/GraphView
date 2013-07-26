@@ -30,10 +30,12 @@ import com.jjoe64.graphview.compatible.ScaleGestureDetector;
  * http://www.gnu.org/licenses/lgpl.html
  */
 abstract public class GraphView extends LinearLayout {
+	
+	static final float FONT_SIZE = 24;
 	static final private class GraphViewConfig {
 		static final float BORDER = 20;
 		static final float VERTICAL_LABEL_WIDTH = 100;
-		static final float HORIZONTAL_LABEL_HEIGHT = 80;
+		static final float HORIZONTAL_LABEL_HEIGHT = 120;
 	}
 
 	private class GraphViewContentView extends View {
@@ -61,7 +63,7 @@ abstract public class GraphView extends LinearLayout {
 
 			float border = GraphViewConfig.BORDER;
 			float horstart = 0;
-			float height = getHeight();
+			float height = getHeight() - 60;
 			float width = getWidth() - 1;
 			double maxY = getMaxY();
 			double minY = getMinY();
@@ -84,6 +86,7 @@ abstract public class GraphView extends LinearLayout {
 			for (int i = 0; i < verlabels.length; i++) {
 				paint.setColor(graphViewStyle.getGridColor());
 				float y = ((graphheight / vers) * i) + border;
+				
 				canvas.drawLine(horstart, y, width, y, paint);
 			}
 
@@ -99,7 +102,9 @@ abstract public class GraphView extends LinearLayout {
 				if (i==0)
 					paint.setTextAlign(Align.LEFT);
 				paint.setColor(graphViewStyle.getHorizontalLabelsColor());
-				canvas.drawText(horlabels[i], x, height - 4, paint);
+				paint.setTextSize(FONT_SIZE);
+				canvas.drawText("|", x, height , paint);
+				canvas.drawText(horlabels[i], x, height + (FONT_SIZE), paint);
 			}
 
 			paint.setTextAlign(Align.CENTER);
@@ -216,7 +221,7 @@ abstract public class GraphView extends LinearLayout {
 			paint.setStrokeWidth(0);
 
 			float border = GraphViewConfig.BORDER;
-			float height = getHeight();
+			float height = getHeight() - 60;
 			float graphheight = height - (2 * border);
 
 			if (verlabels == null) {
@@ -229,6 +234,7 @@ abstract public class GraphView extends LinearLayout {
 			for (int i = 0; i < verlabels.length; i++) {
 				float y = ((graphheight / vers) * i) + border;
 				paint.setColor(graphViewStyle.getVerticalLabelsColor());
+				paint.setTextSize(FONT_SIZE);
 				canvas.drawText(verlabels[i], 0, y, paint);
 			}
 		}
@@ -269,7 +275,7 @@ abstract public class GraphView extends LinearLayout {
 	 */
 	public GraphView(Context context, String title) {
 		super(context);
-		setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
+		setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
 
 		if (title == null)
 			title = "";
@@ -283,7 +289,7 @@ abstract public class GraphView extends LinearLayout {
 
 		viewVerLabels = new VerLabelsView(context);
 		addView(viewVerLabels);
-		addView(new GraphViewContentView(context), new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT, 1));
+		addView(new GraphViewContentView(context), new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT, 1));
 	}
 
 	public GraphViewStyle getGraphViewStyle() {
