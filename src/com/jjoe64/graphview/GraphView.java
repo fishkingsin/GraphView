@@ -291,6 +291,24 @@ abstract public class GraphView extends LinearLayout {
 		addView(viewVerLabels);
 		addView(new GraphViewContentView(context), new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT, 1));
 	}
+	public GraphView(Context context, String title , boolean bAddVerticalLable) {
+		super(context);
+		setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+
+		if (title == null)
+			title = "";
+		else
+			this.title = title;
+
+		graphViewStyle = new GraphViewStyle();
+
+		paint = new Paint();
+		graphSeries = new ArrayList<GraphViewSeries>();
+
+		viewVerLabels = new VerLabelsView(context);
+		if(bAddVerticalLable)addView(viewVerLabels);
+		addView(new GraphViewContentView(context), new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT, 1));
+	}
 
 	public GraphViewStyle getGraphViewStyle() {
 		return graphViewStyle;
